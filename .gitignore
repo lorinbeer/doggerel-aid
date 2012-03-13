@@ -1,0 +1,9 @@
+# buffer and temp files #
+~*
+*~
+#*#
+
+# OS files #
+.DS_STORE
+
+
