@@ -1,6 +1,6 @@
 # Tips n' Tricks for chrome
 
-## omnibar calculations
+## omnibox calculations
 yes it can! Well, it calls google's built in calculator function
 
 ### unit conversions, 
@@ -19,6 +19,23 @@ eg volume
 et cetera
 
 ## Shortcuts
+
+### view page source
+
+    command-control u
+
+### open dev tools
+
+    command-control i
+
+### open JS console
+
+    command-control j
+
+### inspection mode
+
+    command-shift c
+
 ### Undo Close Tab
 
     ctl-shift T
@@ -27,4 +44,7 @@ OS X
 
     command-shift T
 
+### open task manager
+doesn't work on OS X :(
+    shift-esc
 
