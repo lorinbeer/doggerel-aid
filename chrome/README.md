@@ -44,7 +44,12 @@ OS X
 
     command-shift T
 
+### tab navigation
+    
+    control-tab    // next tab
+
 ### open task manager
 doesn't work on OS X :(
+
     shift-esc
 
