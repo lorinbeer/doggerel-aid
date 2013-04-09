@@ -13,10 +13,29 @@
  */
 
 var querystring = require('querystring');
-var http = require('http');
-var fs = require('fs');
+var https = require('https');
+var prompt = require('prompt');
 
-var PostHeaderUrl = "http://jira.atlassian.com/secure/CreateIssueDetails.jspa?"
+var promptSchema = {
+    properties : {
+        name : {
+            required : true
+        },
+        password : {
+            required : true,
+            hidden : true
+        }
+    }
+}
+
+prompt.start();
+
+prompt.get(promptSchema, function (err, result) {
+    console.log(result);
+    startRequest();
+});
+
+var PostHeaderUrl = "https://jira.atlassian.com/secure/CreateIssueDetails.jspa?"
 var auth = 'Basic' + new Buffer('lorin@adobe.com' + ':' + 'safety').toString('base64');
 console.log(auth);
 var PresetPostFields = {
@@ -27,17 +46,28 @@ var PresetPostFields = {
 
 var PresetPostOptions = {
     'host' : "jira.atlassian.com",
-    'port' : 80,
     'path' : "/secure/QuickCreateIssue.jspa",
     'method' : 'POST',
     'X-Atlassian-Token': 'no-check',
     'Authorization' : auth
 }
+
+/**
+ * sees everything
+ */
+var rock() {
+    req = createRequest(PresetPostOptions); 
+    
+    // readData()
+    req.write(data);
+
+    req.end();
+}
+
 /**
  *
  */
-function createIssuePostData(data) {
-    
+function createIssuePostData(data) { 
     for (var key in PresetPostFields) {
         data[key] = PresetPostFields[key];
     }
@@ -45,28 +75,25 @@ function createIssuePostData(data) {
 }
 
 /**
- *
+ * 
  */
-function createIssuePostOptions() {
+function readData(data) {
+    return {
+        summary : "test issue",
+        description : "issues test"
+    }
 }
 
-var data = {
-    summary : "test issue",
-    description : "issues test"
+/**
+ * creates a request and sets error callback
+ */
+function createRequest(options) {
+    var postReq = https.request(options, function(res) {
+        res.setEncoding('utf8');
+        console.log(res.req._headerSent);
+    });
+
+    postReq.on('error', function(e) {
+        console.log('fuckup: ' + e.message);
+    });
 }
-
-console.log(data);
-console.log( createIssuePostData(data) );
-
-var postReq = http.request(PresetPostOptions, function(res) {
-    res.setEncoding('utf8');
-    console.log(res.req._headerSent);
-});
-
-postReq.on('error', function(e) {
-    console.log('fuckup: ' + e.message);
-});
-
-postReq.write(createIssuePostData(data));
-postReq.end();
-
