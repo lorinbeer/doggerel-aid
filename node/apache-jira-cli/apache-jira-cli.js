@@ -18,10 +18,34 @@ var prompt = require('prompt');
 
 // targeting Apache Cordova
 var PresetPostFields = {
-    'pid' : '10420',
+    'pid' : '12312420',
     'issuetype' : 2,
     'security' : -1
 };
+
+var IssuePutOptions = {
+    'host' : "issues.apache.org",
+    'path' : "/jira/rest/api/latest/issue",
+    'method' : 'PUT',
+    'X-Atlassian-Token': 'no-check',
+    'Authorization' : -1,
+    'headers': {
+        'Content-Type' : "application/json"
+    }
+}
+
+var JiraRestTemplate = {
+    "fields" : {
+        "project" : {
+            "id" : -1
+        },
+        "summary" : -1,
+        "description" : -1,
+        "issuetype" : {
+            "name" : "Bug"
+        }
+    }
+}
 
 // to get apache jira password and username 
 var promptSchema = {
@@ -39,13 +63,8 @@ var promptSchema = {
 prompt.start();
 prompt.get(promptSchema, function (err, result) {
     var auth = 'Basic' + new Buffer(result.name + ':' + result.password).toString('base64');
-    rock ({
-        'host' : "jira.atlassian.com",
-        'path' : "/secure/QuickCreateIssue.jspa",
-        'method' : 'POST',
-        'X-Atlassian-Token': 'no-check',
-        'Authorization' : auth
-    });
+    IssuePutOptions['Authorization'] = auth;
+    rock (IssuePutOptions);
 });
 
 /**
@@ -54,17 +73,26 @@ prompt.get(promptSchema, function (err, result) {
 function rock(requestOptions) {
     console.log(requestOptions);
     req = createRequest(requestOptions); 
-    
     // readData()
-    var data = readData();
-    req.write(createIssuePostData(data));
+    var data = JSON.stringify(createIssueRestData(),'utf8');
+    console.log(createIssueRestData());
+    //console.log(data);
+
+    req.write(data);
     req.end();
 }
 
+function createIssueRestData() {
+    JiraRestTemplate.fields.project.id = "12312420"; 
+    JiraRestTemplate.fields.summary = "RestFul Test Issue";
+    JiraRestTemplate.fields.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+    JiraRestTemplate.fields.issuetype.name = "Bug";
+    return JiraRestTemplate;
+}
 /**
  * creates issue query string from presets and dynamic data 
  */
-function createIssuePostData(data) { 
+function createIssueQueryString(data) { 
     for (var key in PresetPostFields) {
         data[key] = PresetPostFields[key];
     }
@@ -76,7 +104,7 @@ function createIssuePostData(data) {
  */
 function readData(data) {
     return {
-        summary : "Test Issue",
+        summary : "RestFul Test Issue",
         description : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
 }
@@ -87,7 +115,11 @@ function readData(data) {
 function createRequest(options) {
     var req = https.request(options, function(res) {
         res.setEncoding('utf8');
-        console.log(res.req._headerSent);
+        console.log("Status Code: " + res.statusCode);
+        console.log("Response Header: " + JSON.stringify(res.headers));
+        res.on('data', function (chunk) {
+            console.log('BODY: ' + chunk);
+        });
     });
 
     req.on('error', function(e) {
