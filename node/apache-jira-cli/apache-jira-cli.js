@@ -26,9 +26,8 @@ var PresetPostFields = {
 var IssuePutOptions = {
     'host' : "issues.apache.org",
     'path' : "/jira/rest/api/latest/issue",
-    'method' : 'PUT',
-    'X-Atlassian-Token': 'no-check',
-    'Authorization' : -1,
+    'method' : 'POST',
+    'X-Atlassian-Token': 'no-check', 
     'headers': {
         'Content-Type' : "application/json"
     }
@@ -39,8 +38,8 @@ var JiraRestTemplate = {
         "project" : {
             "id" : -1
         },
-        "summary" : -1,
-        "description" : -1,
+    //    "summary" : -1,
+    //    "description" : -1,
         "issuetype" : {
             "name" : "Bug"
         }
@@ -62,8 +61,8 @@ var promptSchema = {
 
 prompt.start();
 prompt.get(promptSchema, function (err, result) {
-    var auth = 'Basic' + new Buffer(result.name + ':' + result.password).toString('base64');
-    IssuePutOptions['Authorization'] = auth;
+    var auth = 'Basic ' + new Buffer(result.name + ':' + result.password).toString('base64');
+    IssuePutOptions.headers.Authorization = auth;
     rock (IssuePutOptions);
 });
 
@@ -84,8 +83,8 @@ function rock(requestOptions) {
 
 function createIssueRestData() {
     JiraRestTemplate.fields.project.id = "12312420"; 
-    JiraRestTemplate.fields.summary = "RestFul Test Issue";
-    JiraRestTemplate.fields.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+    //JiraRestTemplate.fields.summary = "RestFul Test Issue";
+    //JiraRestTemplate.fields.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     JiraRestTemplate.fields.issuetype.name = "Bug";
     return JiraRestTemplate;
 }
