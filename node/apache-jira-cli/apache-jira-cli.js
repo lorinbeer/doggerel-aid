@@ -15,36 +15,36 @@
 var querystring = require('querystring');
 var https = require('https');
 var prompt = require('prompt');
-var ArgumentParser = require('argparse');
-var ApacheJiraFetch = require('./apachejirafetch.js');
+var ArgumentParser = require('argparse').ArgumentParser;
+//var ApacheJiraFetch = require('./apachejirafetch.js');
 
 var parser = new ArgumentParser({
     version: '0.0.1',
     addHelp: true
 });
 
-parser.addArgument( 
-    ['-f', '--foo'], {help: 'bar foo'}
-);
+parser.addArgument(['-s', '--safemode'],{action:'storeTrue',help: "print post fields and data, but no request is sent"});
 
-parser.addArgument(['-s', '--safemode'],{help: "print post fields and data, but no request is sent"});
-parser.addArgument(['-',''],{});
-/*
-var commandLine = new CommandLine('opts');
+var subparsers = parser.addSubparsers({
+  title:'subcommands',
+});
 
-function initCommandLine () {
-    commandLine.addArgument("safemode"); 
-    commandLine.addArgument("source",{type: 'string'});
-    commandLine.addArgument("fetch");
-    commandLine.addArgument("create");
-    commandLine.addArgument("mod");
-    commandLine.AddArgument("batchcreate"); 
-    commandLine.AddArgument("batchcreate");
-}
-*/
+// Fetch mode parser
+var baragonFetchParser = subparsers.addParser("fetch",{addHelp:true});
+baragonFetchParser.addArgument(['-s', '--safemode'],{action: 'storeTrue',help: "print post fields and data, but no request is sent"});
+baragonFetchParser.addArgument(['-i', '--issueid'], {type: 'string', action: 'store', help: "specify the issue to fetch by Jira Issue ID, required",required: true});
 
-console.log(process.argv)
+// Create mode parser 
+var baragonCreateParser = subparsers.addParser("create",{addHelp:true});
+baragonCreateParser.addArgument(['-s', '--safemode'],{action: 'storeTrue', help: "print post fields and data, but no request is sent"});
 
+// Modify mode parser
+var baragonModParser = subparsers.addParser("mod",{addHelp:true});
+baragonModParser.addArgument(['-s', '--safemode'],{action: 'storeTrue', help: "print post fields and data, but no request is sent"});
+baragonModParser.addArgument(['-i', '--issueid'],{type: 'string', action: 'store', help: "specify the issue to modify by Jira Issue ID, required",required: true});
+
+var sessionOptions = parser.parseArgs();
+console.log(sessionOptions);
 // targeting Apache Cordova
 var PresetPostFields = {
     'pid' : '12312420',
@@ -92,22 +92,25 @@ prompt.start();
 prompt.get(promptSchema, function (err, result) {
     var auth = 'Basic ' + new Buffer(result.name + ':' + result.password).toString('base64');
     IssuePutOptions.headers.Authorization = auth;
-    //rock (IssuePutOptions);
+    rock (IssuePutOptions);
 });
 
 /**
  * sees everything
  */
 function rock(requestOptions) {
-    console.log(requestOptions);
-    req = createRequest(requestOptions); 
     // readData()
     var data = JSON.stringify(createIssueRestData(),'utf8');
-    console.log(createIssueRestData());
-    //console.log(data);
 
-    //req.write(data);
-    //req.end();
+    if (!sessionOptions.safemode) {
+        console.log('Unsafe Mode');
+        req = createRequest(requestOptions);
+        req.write(data);
+        req.end();
+    } else {
+        console.log(requestOptions);
+        console.log(createIssueRestData());
+    }
 }
 
 function createIssueRestData() {
