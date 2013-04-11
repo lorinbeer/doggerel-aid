@@ -15,6 +15,35 @@
 var querystring = require('querystring');
 var https = require('https');
 var prompt = require('prompt');
+var ArgumentParser = require('argparse');
+var ApacheJiraFetch = require('./apachejirafetch.js');
+
+var parser = new ArgumentParser({
+    version: '0.0.1',
+    addHelp: true
+});
+
+parser.addArgument( 
+    ['-f', '--foo'], {help: 'bar foo'}
+);
+
+parser.addArgument(['-s', '--safemode'],{help: "print post fields and data, but no request is sent"});
+parser.addArgument(['-',''],{});
+/*
+var commandLine = new CommandLine('opts');
+
+function initCommandLine () {
+    commandLine.addArgument("safemode"); 
+    commandLine.addArgument("source",{type: 'string'});
+    commandLine.addArgument("fetch");
+    commandLine.addArgument("create");
+    commandLine.addArgument("mod");
+    commandLine.AddArgument("batchcreate"); 
+    commandLine.AddArgument("batchcreate");
+}
+*/
+
+console.log(process.argv)
 
 // targeting Apache Cordova
 var PresetPostFields = {
@@ -63,7 +92,7 @@ prompt.start();
 prompt.get(promptSchema, function (err, result) {
     var auth = 'Basic ' + new Buffer(result.name + ':' + result.password).toString('base64');
     IssuePutOptions.headers.Authorization = auth;
-    rock (IssuePutOptions);
+    //rock (IssuePutOptions);
 });
 
 /**
@@ -77,13 +106,13 @@ function rock(requestOptions) {
     console.log(createIssueRestData());
     //console.log(data);
 
-    req.write(data);
-    req.end();
+    //req.write(data);
+    //req.end();
 }
 
 function createIssueRestData() {
     JiraRestTemplate.fields.project.id = "12312420"; 
-    //JiraRestTemplate.fields.summary = "RestFul Test Issue";
+    JiraRestTemplate.fields.summary = "RestFul Test Issue";
     //JiraRestTemplate.fields.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     JiraRestTemplate.fields.issuetype.name = "Bug";
     return JiraRestTemplate;
