@@ -12,6 +12,10 @@
  * limitations under the License.
  */
 
-module.exports = function () {
+module.exports = function (htmlRequestOptions) {
+
+// add method to request options
+htmlRequestOptions['method'] : 'GET';
+
 
 }

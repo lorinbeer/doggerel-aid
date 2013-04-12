@@ -52,12 +52,13 @@ var PresetPostFields = {
     'security' : -1
 };
 
-var IssuePutOptions = {
-    'host' : "issues.apache.org",
+var HtmlRequestDefaultOptions = {
+    'host' : "issues.apache.org", 
     'path' : "/jira/rest/api/latest/issue",
-    'method' : 'POST',
+    'method' : -1, // stub, autofails, needs to be updated by the specific request handler (fetch, mod, create)
     'X-Atlassian-Token': 'no-check', 
     'headers': {
+        // needs authentication header added before send
         'Content-Type' : "application/json"
     }
 }
@@ -65,18 +66,16 @@ var IssuePutOptions = {
 var JiraRestTemplate = {
     "fields" : {
         "project" : {
-            "id" : -1
+            "id" : -1 //target 
         },
-    //    "summary" : -1,
-    //    "description" : -1,
         "issuetype" : {
             "name" : "Bug"
         }
     }
 }
 
-// to get apache jira password and username 
-var promptSchema = {
+//  get apache jira password and username 
+var authPromptSchema = {
     properties : {
         name : {
             required : true
@@ -89,7 +88,7 @@ var promptSchema = {
 }
 
 prompt.start();
-prompt.get(promptSchema, function (err, result) {
+prompt.get(authPromptSchema, function (err, result) {
     var auth = 'Basic ' + new Buffer(result.name + ':' + result.password).toString('base64');
     IssuePutOptions.headers.Authorization = auth;
     rock (IssuePutOptions);
