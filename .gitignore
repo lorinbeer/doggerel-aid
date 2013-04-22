@@ -6,4 +6,6 @@
 # OS files #
 .DS_STORE
 
-
+# node ignore #
+node_modules
+npm-debug.log
