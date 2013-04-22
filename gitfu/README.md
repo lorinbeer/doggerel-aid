@@ -1,5 +1,5 @@
 # Git-Fu
-various git commands
+various git command templates
 
 ## remotes and branches
 
@@ -32,6 +32,19 @@ rewrite environment variable values for the branch on which it is applied
     git filter-branch --env-filter 
 
 ### commit-filter
+
+### rewrite git author of commits
+    git filter-branch --env-filter
+        'if[ "$GIT_COMMITER_NAME" = "Lorin Beer" ]
+        then
+            GIT_COMMITER_NAME="lorinbeer";
+            GIT_AUTHOR_NAME="lorinbeer";
+            GIT_COMMITER_EMAIL="lorin.beer@gmail.com";
+            GIT_AUTHOR_EMAIL="lorin.beer@gmail.com";
+            git commit-tree "$@";
+        else
+            git commit-tree "$@";
+        fi' HEAD
 
 ### --force
 this will bypass several possible errors, which mostly indicate you may be discarding valuable backups. Use with caution.
