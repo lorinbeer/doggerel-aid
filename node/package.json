@@ -1,0 +1,37 @@
+{
+  "name" : "",
+  "version" : "0.0.1",
+  "description" : "",
+  "author" : {
+    "name" : "Lorin Beer,
+    "email" : "lorin@adobe.com" 
+    "url" : "ensufire.com/" 
+  },
+  "keywords" : "",
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/lorinbeer/<GITNAME>.git"
+  },
+  "bugs" : { 
+    "url"   : "https://github.com/lorinbeer/<GITNAME>/issues",
+    "email" : "lorin.beer.dev@gmail.com"
+  },
+  "license" : "apache 2.0",
+  "files" : [],
+  "main" : "",
+  "bin" : "",
+  "man" : "",
+  "dependencies" : {
+    {
+
+    }
+  },
+  "devDependencies" : {
+    {
+
+    }
+  },
+  "engines" : {
+    "node" : "0.10.x"
+  }
+}
