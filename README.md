@@ -12,13 +12,20 @@ The Author does not guarantee, in any way, shape, combination or permutation tha
 
 use with the caution appropriate to a sapient ape
 
+## chrome
+useful shortcuts and tricks for google chrome
 
-## Contents ##
-* .gitignore files
+## gitfu
+collection of common, useful and arcane git commands
 
-various templates I find useful for gitignore files
+## jsfu
+collection of common, useful, arcane or just plain weird js snippits and practices
 
-* gitsync.py
+## node
+node scripts which don't deserve their own package
 
-python script used to sync two directories. Every time it's run, both directory contents are synced. For files present in both directories, the most recently modified version is used. I use this for keeping an ide's grubby hands off of my version controlled project working directory (looking at you Eclipse! Fool me 1+n!)
-Usage: edit in your favourite text editor (emacs/vi/vim/textmate/whatever) and run sync, keeping an ide's version of the source synced with the project, without endagering your codes with topheavy ide bullshit
+## scripts
+bash scripts  
+
+## other
+.gitignore templates
