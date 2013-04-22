@@ -1,40 +1,24 @@
-# Git-Fu
-various git commands
+# Doggerel-Aid #
+this is a personal repo holding utility scripts, cheat sheets, and hacks to make life easier for me while raging on code
+
+## Warnings ##
+The Author does not guarantee, in any way, shape, combination or permutation that you won't
+
+* shoot yourself in the hand/foot/face
+
+* screw yourself over
+
+* [any other unpleasantness] 
+
+use with the caution appropriate to a sapient ape
 
 
-## git-reset
-### Soft Reset 
-leaves the index file and the working tree untouched, moves HEAD to <commit>
+## Contents ##
+* .gitignore files
 
-    $ git-reset --soft <commit>
+various templates I find useful for gitignore files
 
-### Hard Reset
-double-dangerous
-resets working tree and index file. Discards any changes to tracked files since <commit>.
+* gitsync.py
 
-    $ git-reset --hard
-
-## git filter-branch
-### --rev-list
-list branches you wish to rewrite
-### env-filter
-rewrite environment variable values for the branch on which it is applied
-
-    git filter-branch --env-filter 
-
-### commit-filter
-
-### --force
-this will bypass several possible errors, which mostly indicate you may be discarding valuable backups. Use with caution.
-* temp directory exists already
-* if another filter-branch has been run previously, then the original branch refs will be backed up in refs/original
-
-### HEAD
-filters revisions on the current branch
-
-    git filter-branch --env-filter '[script to be run]' HEAD
-
-### -- --all
-filter-branch on all revisions on all refs, including all branches
-
-    git filter-branch --env-filter '[script to be run]' -- --all
+python script used to sync two directories. Every time it's run, both directory contents are synced. For files present in both directories, the most recently modified version is used. I use this for keeping an ide's grubby hands off of my version controlled project working directory (looking at you Eclipse! Fool me 1+n!)
+Usage: edit in your favourite text editor (emacs/vi/vim/textmate/whatever) and run sync, keeping an ide's version of the source synced with the project, without endagering your codes with topheavy ide bullshit
