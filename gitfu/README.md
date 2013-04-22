@@ -1,5 +1,6 @@
 # Git-Fu
 various git command templates. From the obvious to the arcane.
+
 Every time I forget a git command, I make myself put it here.
 
 ## remotes and branches
@@ -15,7 +16,7 @@ Every time I forget a git command, I make myself put it here.
 ## git fsck
 dark git magic. daaaaark
 ### lost detached commit 
-git fsck --cache --no-reflogs --lost-found --unreachable HEAD
+    $ git fsck --cache --no-reflogs --lost-found --unreachable HEAD
 
 ## git-reset
 ### Soft Reset 
@@ -68,7 +69,11 @@ filter-branch on all revisions on all refs, including all branches
     git filter-branch --env-filter '[script to be run]' -- --all
 
 ## git stash
+
 stash it
+
     git stash
+
 pop it
+
     git stash pop
