@@ -1,0 +1,8 @@
+
+ios_cordova="~/dev/cordova/ios"
+android_cordova="~/dev/cordova/android"
+bb_cordova="~/dev/cordova/blackberry"
+
+cd ~/dev/cordova/ios/bin
+./create $1 $2 $3
+cp -r ~/dev/cordova/mobile-spec/* $1/www
