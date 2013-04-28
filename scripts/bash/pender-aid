@@ -1,0 +1,5 @@
+ndk-build
+ant debug
+adb uninstall com.pender.cordovaplugin
+adb install bin/PenderV8-debug-unaligned.apk
+adb logcat
