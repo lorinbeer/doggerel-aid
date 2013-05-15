@@ -1,0 +1,21 @@
+
+bbndk="/Users/lorin/sdks/bb-ndk"
+mobilespec="/Users/lorin/cordova/mobile-spec"
+devicepin=24CC0D0B
+deviceip=169.254.0.1
+devicepass="password"
+
+echo cd'ing into bb-ndk dir
+cd $bbndk
+
+echo running bbnkd-env
+source bbndk-env_10_1_0_1020.sh
+
+echo cd'ing into project dir
+cd $1
+
+echo adding target
+./cordova/target add bb10 $deviceip device -p $devicepass --pin $devicepin
+
+echo copying mobile spec
+cp -r $mobilespec/* www/
