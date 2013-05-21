@@ -1,4 +1,10 @@
-# toetagger
+# bash scripts
+
+## bashfu
+
+document with various bash methods and know how
+
+## toetagger
 
 Got hundreds of unit tests? Want unique names for each of them? Don't have an unpaid intern? 
 toetag
