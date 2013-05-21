@@ -1,7 +1,10 @@
 # Vim Incantations
 
-## Tab
+## Syntax Highlighting
 
+### save highlighted source to html
+    :runtime! syntax/2html.vim
+## Tab
 ### tabstop
 how many columns a tab counts for
     :set tabstop=4
