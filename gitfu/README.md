@@ -3,6 +3,13 @@ various git command templates. From the obvious to the arcane.
 
 Every time I forget a git command, I make myself put it here.
 
+
+## tags
+
+### delete a remote tag
+
+git push --delete <REMOTE> <tagname>
+
 ## remotes and branches
 
 ### create local branch from remote; no tracking
