@@ -2,6 +2,16 @@
 
 ## Syntax Highlighting
 
+## Indent
+### indent multiple lines
+    :n>>
+where n is the number of lines following the cursor to indent
+### mark a block to indent
+    :V*j>
+where *j number of lines to navigate down
+### indent curly-braces block
+put cursor on curly braces
+    :>%
 ### save highlighted source to html
     :runtime! syntax/2html.vim
 ## Tab
