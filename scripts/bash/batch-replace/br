@@ -25,7 +25,11 @@ SOURCE=$(cat $1)
 TARGET=$(cat $2)
 
 function replace {
-    echo $1    
+    echo SEARCHING: $1 $2
+    #awk '/\/\*/,/\*\// { gsub(/$2/,"foo",$1); print }' $1 $2 
+    awk '{ gsub(/$2/,"foo",$1); print $2}' $1 $2 
 }
+
 export -f replace
-find `pwd` -type f | xargs -I '{}' -n 1 -P 10  bash -c "replace {}"
+
+find `pwd` -type f | xargs -I '{}' -n 1 -P 10  bash -c "replace {} $1 $2"

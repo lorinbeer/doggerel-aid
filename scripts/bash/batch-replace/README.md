@@ -8,3 +8,7 @@ run in root directory you wish to scan
 where:
 target - file containing the block of text to replace
 source - file containing the replacement text
+
+##useful patterns
+- recurse down a directory tree, act on each file found
+- call an internally defined function with awk
