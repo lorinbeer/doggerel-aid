@@ -46,7 +46,7 @@ function processdir(dir) {
                 // horribly inefficient,
                 if(data.indexOf(target) == 0) { //set to 0, current application is to replace only beginning of file
                     console.log("target found in file: " + files[i]);
-                    replace(files[i], data);
+                    replace(path.join(targetdir,files[i]), data);
                 }
             });
         }
