@@ -1,11 +1,27 @@
-
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 var fs = require("fs"),
+    path = require("path"),
+    targpath = process.argv[2],
+    sourpath = process.argv[3],
+    targetdir = path.join(__dirname, process.argv[4]),
     target = null,
-    source = null;
-    
-function readfile(filename, bytes, cb) {
-    var readstream = fs.createReadStream(filename, {'encoding':'utf8'}),
+    source = null; 
+
+function readfile(filepath, bytes, cb) {
+    var readstream = fs.createReadStream(filepath, {'encoding':'utf8'}),
         chunk = null, 
         buffer = "";
     readstream.on('readable', function (fd) {
@@ -25,9 +41,11 @@ function replace(filepath, data) {
 function processdir(dir) {
     fs.readdir(dir, function (err, files) {
         for (var i in files) {
-            readfile(files[i], 0, function(data) {
+            readfile(path.join(targetdir,files[i]), 0, function(data) {
+                console.log("processing " + files[i] + " in " + targetdir);
                 // horribly inefficient,
-                if(data.search(target) == 0) { //set to 0, current application is to replace only beginning of file
+                if(data.indexOf(target) == 0) { //set to 0, current application is to replace only beginning of file
+                    console.log("target found in file: " + files[i]);
                     replace(files[i], data);
                 }
             });
@@ -36,12 +54,12 @@ function processdir(dir) {
 }
 
 // read and set the target
-readfile("source.data", 0, function(data) {
+readfile(path.join(__dirname,sourpath), 0, function(data) {
     source = data;
 });
 
-readfile("target.data", 0, function(data) {
+readfile(path.join(__dirname,targpath), 0, function(data) {
     target = data;
     // once the target has been set we can begin processing the directory
-    processdir("/Users/lorin/dev/doggerel-aid/node/batch-replace");
+    processdir(targetdir);
 });
