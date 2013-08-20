@@ -6,13 +6,18 @@ function processDir(dir) {
     fs.readdir(dir, function (err, files) {
         for (var i in files) {
             console.log(files[i]);
-            var readstream = fs.createReadStream(files[i], {'start':0, 'end':64});
-            readstream.on('open', function (fd) {
-                console.log(readstream.read(64));
+            var readstream = fs.createReadStream("LICENSE", {'start':0, 'end':64, 'encoding':"utf8"});
+            readstream.on('readable', function (fd) {
+                var chunk;
+                while (null != (chunk = readstream.read())) {
+                    console.log(chunk);
+                }
             });
         }
     });
 }
+
+
 
 function processFile() {
     //find match
