@@ -45,6 +45,8 @@ function processdir(dir) {
             console.log("processing " + files[i] + " in " + targetdir, i);
             function cb(data, filepath) {
                 // horribly inefficient,
+
+                console.log(data.indexOf(target));
                 if(data.indexOf(target) == 0) { //set to 0, current application is to replace only beginning of file
                     console.log("target found in file: " + filepath);
                     replace(filepath, data);
