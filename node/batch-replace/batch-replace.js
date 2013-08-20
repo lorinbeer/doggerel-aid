@@ -28,27 +28,29 @@ function readfile(filepath, bytes, cb) {
         while (null != (chunk = readstream.read())) {
             buffer = buffer + chunk;
         }
-        cb(buffer);
+        cb(buffer, filepath);
     });
 }
 
 function replace(filepath, data) {
-    var update = data.replace(target, source),
+    var update = data.replace(target, source);
         writestream = fs.createWriteStream(filepath, {'encoding':'utf8'});
     writestream.write(update);
 }
 
 function processdir(dir) {
+    var i = 0;
     fs.readdir(dir, function (err, files) {
-        for (var i in files) {
-            readfile(path.join(targetdir,files[i]), 0, function(data) {
-                console.log("processing " + files[i] + " in " + targetdir);
+        for (i = 0; i < files.length; i=i+1) {
+            console.log("processing " + files[i] + " in " + targetdir, i);
+            function cb(data, filepath) {
                 // horribly inefficient,
                 if(data.indexOf(target) == 0) { //set to 0, current application is to replace only beginning of file
-                    console.log("target found in file: " + files[i]);
-                    replace(path.join(targetdir,files[i]), data);
+                    console.log("target found in file: " + filepath);
+                    replace(filepath, data);
                 }
-            });
+            }
+            readfile(path.join(targetdir,files[i]), 0, cb);
         }
     });
 }
